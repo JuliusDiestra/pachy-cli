@@ -1,0 +1,10 @@
+
+module(name = "pachy", version = "0.1.0")
+
+new_local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "new_local_repository")
+
+new_local_repository(
+    name = "external-libs",
+    path = "/usr/local/lib",
+    build_file = "external-libs.BUILD",
+)
