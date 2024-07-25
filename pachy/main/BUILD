@@ -16,4 +16,5 @@ cc_library(
         "//pachy/arg_parser:arg_parser",
         "//pachy/runner:runner"
     ],
+    visibility = ["//pachy/main/test:__pkg__"]
 )

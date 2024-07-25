@@ -1,0 +1,31 @@
+
+cc_import(
+   name = "libgtest",
+   static_library = "lib/libgtest.a",
+   visibility = ["//visibility:public"],
+)
+
+cc_import(
+   name = "libgtest_main",
+   static_library = "lib/libgtest_main.a",
+   visibility = ["//visibility:public"],
+)
+
+cc_import(
+   name = "libyaml",
+   static_library = "lib/libyaml.a",
+   visibility = ["//visibility:public"],
+)
+
+cc_import(
+   name = "libgmock",
+   static_library = "lib/libgmock.a",
+   visibility = ["//visibility:public"],
+)
+
+cc_import(
+   name = "libgmock_main",
+   static_library = "lib/libgmock_main.a",
+   visibility = ["//visibility:public"],
+)
+

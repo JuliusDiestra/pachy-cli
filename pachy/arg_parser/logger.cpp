@@ -20,13 +20,13 @@ Usage: pachy [FLAG] [JOB_NAME]
     pachy --run job_one
 
 Flags:
-  -r, --run                 Run specified jobs.
-  -rd, --run-deps           Run specified jobs with its dependencies and
-                            transitive dependencies.
-  -sh, --shell              Start docker shell with job docker image.
-  -sd, --show-deps          Show job dependencies.
-  -sj, --show-jobs          Show jobs in the project.
-  -sp, --show-pipelines     Show pipelines in the project.
+  -r,   --run               Run specified jobs or single pipeline.
+  -d,   --deps              Flag to run jobs with its dependencies and
+                            transitive dependencies. Must be use with --run.
+  -sh,  --shell             Start docker shell with job docker image.
+  -sd,  --show-deps         Show job dependencies.
+  -sj,  --show-jobs         Show jobs in the project.
+  -sp,  --show-pipelines    Show pipelines in the project.
   -val, --validate          Validate jobs and/or pipeline configuration.
 
 Generic Flags:

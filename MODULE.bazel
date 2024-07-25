@@ -5,6 +5,7 @@ new_local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.
 
 new_local_repository(
     name = "external-libs",
-    path = "/usr/local/lib",
-    build_file = "external-libs.BUILD",
+    path = "/usr/local",
+    build_file = "//pachy/external:BUILD.external-libs",
 )
+
