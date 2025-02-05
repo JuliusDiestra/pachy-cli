@@ -15,7 +15,13 @@ namespace pachy {
  *
  */
 enum class StatusType {
-    kSuccess,               // Success status.
+    kSuccess,                       // Success status.
+    kStatusReturnConstructor,       // StatusReturn constructor only accepts StatusCode for Error.
+    kStatusReturnNoValue,           // StatusReturn does not contain value.
+    kArgumentNotSupported,          // Arguments are not supported for an specific flag.
+    kArgumentMaxNumber,             // Pass max number of arguments allowed.
+    kRepeatedFlag,                  // Flag added is reaped. This means the flag was already added.
+    kFlagDoesNotExist               // Flag does not exists inside Arguments class.
 };
 
 }  // namespace marsvin

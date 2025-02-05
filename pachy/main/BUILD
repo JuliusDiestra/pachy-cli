@@ -10,11 +10,13 @@ cc_binary(
 
 cc_library(
     name = "pachylib",
-    srcs = ["pachy.cpp"],
-    hdrs = ["pachy.hpp"],
+    srcs = ["pachy.cpp",
+            "printer.cpp"],
+    hdrs = ["pachy.hpp",
+            "printer.hpp"],
     deps = [
         "//pachy/arg_parser:arg_parser",
-        "//pachy/runner:runner"
+        "//pachy/error_handling:error_handling"
     ],
     visibility = ["//pachy/main/test:__pkg__"]
 )

@@ -1,5 +1,5 @@
 
-#include "logger.hpp"
+#include "printer.hpp"
 
 #include <iostream>
 
@@ -10,24 +10,18 @@ const std::string kMainHelpMenu =
 OVERVIEW: A tool to execute jobs (set of commands) and pipelines (set of jobs)
 using command line. Jobs and pipelines must be defined in a YAML document.
 
-Usage: pachy [FLAG] [JOB_NAME]
+Usage: pachy [FLAG] [JOB_NAME...]
        pachy [FLAG] [PIPELINE_NAME]
        pachy [FLAG]
        pachy [GENERIC FLAG]
 
     pachy --help
     pachy --version
-    pachy --run job_one
+    pachy --run job_one job_two
+    pachy --run pipeline_name
 
 Flags:
   -r,   --run               Run specified jobs or single pipeline.
-  -d,   --deps              Flag to run jobs with its dependencies and
-                            transitive dependencies. Must be use with --run.
-  -sh,  --shell             Start docker shell with job docker image.
-  -sd,  --show-deps         Show job dependencies.
-  -sj,  --show-jobs         Show jobs in the project.
-  -sp,  --show-pipelines    Show pipelines in the project.
-  -val, --validate          Validate jobs and/or pipeline configuration.
 
 Generic Flags:
   -h, --help        Display help menu.
@@ -38,10 +32,10 @@ Generic Flags:
 
 namespace pachy {
 
-void Logger::PrintHelp() const {
+void Printer::help() const {
     std::cout << kMainHelpMenu;
 }
-void Logger::PrintVersion() const {
+void Printer::version() const {
     std::cout << "pachy version " << kVersion << "\n";
 }
 

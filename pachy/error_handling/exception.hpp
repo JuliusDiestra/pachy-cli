@@ -21,7 +21,6 @@ class Exception : public std::runtime_error {
 
   private:
     StatusCode status_code_;
-    std::string StatusCodeToString(const StatusCode& status_code);
 };
 
 }  // namespace pachy
