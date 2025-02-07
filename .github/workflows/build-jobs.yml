@@ -1,0 +1,22 @@
+name: Pachy jobs
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-docker-image:
+    name: Build Docker Image
+    runs-on: ubuntu-20.04
+    env:
+      DOCKER_FILE: Dockerfile
+      DOCKER_IMAGE: pachy-image
+      DOCKER_CONTAINER: pachy-image
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker Image
+        id: build_docker_image
+        run: |
+          docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE}
+  #build-projects:
+  #run-unit-test:
