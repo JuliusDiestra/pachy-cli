@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-docker-image:
-    name: Build Docker Image
+    name: Build project and unit-test
     runs-on: ubuntu-20.04
     env:
       DOCKER_FILE: Dockerfile
@@ -20,5 +20,13 @@ jobs:
           export USER_ID="$(id -u)"
           export GROUP_ID="$(id -g)"
           docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE} --build-arg USER_ID=$USER_ID --build-arg GROUP_ID=$GROUP_ID
-  #build-projects:
-  #run-unit-test:
+      - name: Run docker container
+        run: |
+          docker run --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
+      - name: Check docker container
+        run: |
+          docker ps
+      - name: Build Project
+        run: |
+          docker exec ${DOCKER_CONTAINER} ls -1 /tmp/workspace
+#      - name: Run Unit-test
