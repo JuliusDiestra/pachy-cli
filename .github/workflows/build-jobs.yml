@@ -17,6 +17,8 @@ jobs:
       - name: Build Docker Image
         id: build_docker_image
         run: |
-          docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE}
+          export USER_ID="$(id -u)"
+          export GROUP_ID="$(id -g)"
+          docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE} --build-arg USER_ID=$USER_ID --build-arg GROUP_ID=$GROUP_ID
   #build-projects:
   #run-unit-test:
