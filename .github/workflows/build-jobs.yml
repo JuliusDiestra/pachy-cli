@@ -25,7 +25,7 @@ jobs:
           docker run -d -it --rm --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
       - name: Build Project
         run: |
-          docker exec -w /tmp/workspace${DOCKER_CONTAINER} bash build-code.sh
+          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bash build-code.sh
       - name: Run Unit-test
         run: |
           echo RunTest
