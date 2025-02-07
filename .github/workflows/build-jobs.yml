@@ -22,11 +22,13 @@ jobs:
           docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE} --build-arg USER_ID=$USER_ID --build-arg GROUP_ID=$GROUP_ID
       - name: Run docker container
         run: |
-          docker run --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
-      - name: Check docker container
-        run: |
-          docker ps
+          docker run -d -it --rm --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
       - name: Build Project
         run: |
-          docker exec ${DOCKER_CONTAINER} ls -1 /tmp/workspace
-#      - name: Run Unit-test
+          docker exec -w /tmp/workspace${DOCKER_CONTAINER} bash build-code.sh
+      - name: Run Unit-test
+        run: |
+          echo RunTest
+      - name: Stop container
+        run: |
+          docker container stop ${DOCKER_CONTAINER}
