@@ -1,6 +1,8 @@
 
 module(name = "pachy", version = "0.1.0")
 
+bazel_dep(name = "rules_cc", version = "0.1.1")
+
 new_local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "new_local_repository")
 
 new_local_repository(
