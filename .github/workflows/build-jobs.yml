@@ -25,10 +25,11 @@ jobs:
           docker run -d -it --rm --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
       - name: Build Project
         run: |
-          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bash build-code.sh
+          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bazel build //...
       - name: Run Unit-test
         run: |
-          echo RunTest
+          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bazel test //...
       - name: Stop container
         run: |
           docker container stop ${DOCKER_CONTAINER}
+
