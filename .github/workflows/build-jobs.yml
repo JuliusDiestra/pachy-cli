@@ -1,0 +1,35 @@
+name: Pachy jobs
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-docker-image:
+    name: Build project and unit-test
+    runs-on: ubuntu-20.04
+    env:
+      DOCKER_FILE: Dockerfile
+      DOCKER_IMAGE: pachy-image
+      DOCKER_CONTAINER: pachy-image
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker Image
+        id: build_docker_image
+        run: |
+          export USER_ID="$(id -u)"
+          export GROUP_ID="$(id -g)"
+          docker build . -t ${DOCKER_IMAGE} -f ${DOCKER_FILE} --build-arg USER_ID=$USER_ID --build-arg GROUP_ID=$GROUP_ID
+      - name: Run docker container
+        run: |
+          docker run -d -it --rm --name ${DOCKER_CONTAINER} --mount src=.,target=/tmp/workspace,type=bind ${DOCKER_IMAGE}
+      - name: Build Project
+        run: |
+          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bazel build //...
+      - name: Run Unit-test
+        run: |
+          docker exec -w /tmp/workspace ${DOCKER_CONTAINER} bazel test //...
+      - name: Stop container
+        run: |
+          docker container stop ${DOCKER_CONTAINER}
+
