@@ -4,6 +4,7 @@ cc_test(
     name = "test_error_handling",
     srcs = glob(["*.cpp"]),
     linkopts = ["-lpthread"],
+    size="small",
     deps = [
         "@external-libs//:libgtest",
         "@external-libs//:libgtest_main",

@@ -17,15 +17,14 @@ Usage: pachy [FLAG] [JOB_NAME...]
 
     pachy --help
     pachy --version
-    pachy --run job_one job_two
-    pachy --run pipeline_name
+    pachy --jobs job_one job_two
+    pachy --pipeline pipeline_name
 
 Flags:
-  -r,   --run               Run specified jobs or single pipeline.
-
-Generic Flags:
-  -h, --help        Display help menu.
-  -v, --version     Display version.
+  -j,   --jobs [JOB_NAME...]        Run specified jobs.
+  -p,   --pipeline [PIPELINE_NAME]  Run specified pipeline.
+  -h,   --help                      Display help menu.
+  -v,   --version                   Display version.
 
 )";
 }

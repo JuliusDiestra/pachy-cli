@@ -16,13 +16,10 @@ class Pachy {
     Pachy(const std::vector<std::string>& input_cli_args);
     int execute();
   private:
-    pachy::StatusCode add_flags();
-    bool is_help() const;
-    bool is_version() const;
-    bool is_run() const;
     pachy::ArgParser arg_parser_;
     pachy::Printer printer_;
     const std::vector<std::string>& input_cli_args_;
+    pachy::StatusCode add_flags();
 };
 
 }  // namespace pachy

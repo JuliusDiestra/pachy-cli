@@ -3,6 +3,13 @@
 
 #include <iostream>
 
+namespace {
+const pachy::Flag kVersionFlag{"-v","--version","Display version."};
+const pachy::Flag kHelpFlag{"-h","--help","Display help menu."};
+const pachy::Flag kJobsFlag{"-j","--jobs","Run specified jobs."};
+const pachy::Flag kPipelineFlag{"-p","--pipeline","Run specified pipeline."};
+}  // namespace
+
 namespace pachy {
 
 Pachy::Pachy(const std::vector<std::string>& input_cli_args) : input_cli_args_{input_cli_args} {
@@ -11,56 +18,57 @@ Pachy::Pachy(const std::vector<std::string>& input_cli_args) : input_cli_args_{i
 int Pachy::execute() {
     int error_code_success{0};
     int error_code_failure{1};
+    // Add flags
     auto status_add_flags = add_flags();
     if (status_add_flags.failure()) {
         std::cerr << status_add_flags.error_message() << std::endl;
         return error_code_failure;
     }
+    // Parse cli args
     auto status_parse = arg_parser_.parse(input_cli_args_);
     if (status_parse.failure()) {
         std::cerr << status_parse.error_message() << std::endl;
         return error_code_failure;
     }
-    if (is_help()) {
-        printer_.help();
-    }
-    if (is_version()) {
+    // Version
+    if (arg_parser_.is_flag_used(kVersionFlag.get_short())) {
         printer_.version();
     }
+    // Help
+    if (arg_parser_.is_flag_used(kHelpFlag.get_short())) {
+        printer_.help();
+    }
+    // Jobs
+    //
+    // Pipeline
     std::cout << "Pachy run" << std::endl;
-    std::cout << "Flags : " << arg_parser_.size() << std::endl;
     return error_code_success;
 }
 
 StatusCode Pachy::add_flags() {
+    // Default Success status
     StatusCode status{};
     // Version
-    pachy::Flag version_flag{"-v","--v","Display version."};
-    status = arg_parser_.add_flag(version_flag);
+    status = arg_parser_.add_flag(kVersionFlag);
     if (status.failure()) {
         return status;
     }
     // Help
-    pachy::Flag help_flag{"-h","--h","Display help menu."};
-    status = arg_parser_.add_flag(help_flag);
+    status = arg_parser_.add_flag(kHelpFlag);
     if (status.failure()) {
         return status;
     }
-    // Run
-    pachy::Flag run_flag{"-r","--r","Run jobs or single pipeline."};
-    status = arg_parser_.add_flag(run_flag);
+    // Jobs
+    status = arg_parser_.add_flag(kJobsFlag);
+    if (status.failure()) {
+        return status;
+    }
+    // Pipeline
+    status = arg_parser_.add_flag(kPipelineFlag);
     if (status.failure()) {
         return status;
     }
     return status;
-}
-
-bool Pachy::is_help() const {
-    return arg_parser_.is_flag_used("-h");
-}
-
-bool Pachy::is_version() const {
-    return arg_parser_.is_flag_used("-v");
 }
 
 }  // namespace pachy
