@@ -16,6 +16,7 @@ namespace pachy {
  */
 enum class StatusType {
     kSuccess,                       // Success status.
+    kUnknownError,                  // Unknown error.
     kStatusReturnConstructor,       // StatusReturn constructor only accepts StatusCode for Error.
     kStatusReturnNoValue,           // StatusReturn does not contain value.
     kArgumentNotSupported,          // Arguments are not supported for an specific flag.

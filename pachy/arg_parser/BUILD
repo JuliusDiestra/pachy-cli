@@ -5,6 +5,7 @@ cc_library(
     srcs = ["arg_parser.cpp",
             "flag.cpp"],
     hdrs = ["arg_parser.hpp",
+            "cli_flag.hpp",
             "flag.hpp"],
     deps = [
         "//pachy/error_handling:error_handling"

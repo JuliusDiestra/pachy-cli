@@ -20,12 +20,32 @@ std::size_t ArgParser::size() const {
 }
 
 pachy::StatusCode ArgParser::parse(const std::vector<std::string>& input_cli_args) {
+    // Verification cli_args
+    //  1. Arguments without flag is an error: pachy d -v 23
+    bool is_flag_registered = false;
+    for (std::size_t j{0}; j < input_cli_args.size(); ++j) {
+        if (is_flag(input_cli_args.at(j))) {
+            is_flag_registered = true;
+            // Use string to get the index of the corresponding registered Flag.
+            auto status_cli = get_flag_index(input_cli_args.at(j));
+            if (status_cli.has_value()) {
+                cli_flag_container_.push_back(CliFlag(input_cli_args.at(j)));
+            } else {
+                // Error : Unknown flag from input_cli_args
+                return StatusCode{StatusType::kUnknownError};
+            }
+        } else {
+            if (!is_flag_registered) {
+                // Error : arguments should be afte a flag.
+                return StatusCode{StatusType::kUnknownError};
+            }
+            cli_flag_container_.back().add_arg(input_cli_args.at(j));
+        }
+    }
+    // Update information in flag_container_ from cli_flag_container_ information.
     auto status_code_verification = verification_cli_args(input_cli_args);
     if (status_code_verification.failure()) {
         return status_code_verification;
-    }
-    for (std::size_t j{0}; j < input_cli_args.size(); ++j) {
-        std::cout << "j : " << input_cli_args.at(j) << std::endl;
     }
     return pachy::StatusCode();
 }
@@ -60,7 +80,19 @@ bool ArgParser::is_repeated_flag(const Flag& flag) const {
     }
 }
 
+bool ArgParser::is_flag(const std::string& flag) const {
+    return (flag.compare(0,1,"-") == 0);
+}
+
 StatusCode ArgParser::verification_cli_args(const std::vector<std::string>& input_cli_args) const {
+    // Grab flags : if has "-" or "--"
+    std::vector<std::string> cli_flags;
+    for (std::size_t j{0}; j < input_cli_args.size()  ;++j) {
+        if ((input_cli_args.at(j).substr(0,1) == "-") || (input_cli_args.at(j).substr(0,2) == "--")) {
+            cli_flags.push_back(input_cli_args.at(j));
+        }
+    }
+    // Check if flags are registered flags.
     return StatusCode();
 }
 
