@@ -30,8 +30,11 @@ class CliFlag {
     const std::string& get_flag() const {
         return flag_;
     }
-    const std::vector<std::string>& get_args() const {
+    std::vector<std::string> get_args() const {
         return args_;
+    }
+    std::size_t size_args() {
+        return args_.size();
     }
   private:
     std::string flag_;

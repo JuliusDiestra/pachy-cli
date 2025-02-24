@@ -49,3 +49,24 @@ TEST(ArgParser, Add_Flag_Dupplicated) {
     EXPECT_FALSE(status_code.success());
 }
 
+TEST(ArgParser, Parse_Unknown_flags) {
+    pachy::ArgParser arg_parser;
+    // Add Help Flag
+    pachy::Flag flag_help(h_short, h_long, h_des);
+    arg_parser.add_flag(flag_help);
+    // Parse
+    std::vector<std::string> input_cli_args{"-v"};
+    auto status = arg_parser.parse(input_cli_args);
+    EXPECT_TRUE(status.failure());
+}
+
+TEST(ArgParser, Parse_Boolean_with_Args) {
+    pachy::ArgParser arg_parser;
+    // Add Help Flag
+    pachy::Flag flag_help(h_short, h_long, h_des);
+    arg_parser.add_flag(flag_help);
+    // Parse
+    std::vector<std::string> input_cli_args{"-h arg1"};
+    auto status = arg_parser.parse(input_cli_args);
+    EXPECT_TRUE(status.failure());
+}

@@ -14,10 +14,12 @@ class Flag {
     explicit Flag(std::string short_flag, std::string long_flag, std::string description_flag);
     void set_used();
     bool is_used() const;
+    bool is_boolean() const;
     const std::string& get_short() const;
     const std::string& get_long() const;
     const std::string& get_description() const;
     StatusCode append_arg(std::string flag_arg);
+    StatusCode set_args(std::vector<std::string> args);
     const std::vector<std::string>& get_args() const;
   private:
     std::string short_;
