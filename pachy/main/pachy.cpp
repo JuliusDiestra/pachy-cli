@@ -6,7 +6,7 @@
 namespace {
 const pachy::Flag kVersionFlag{"-v","--version","Display version."};
 const pachy::Flag kHelpFlag{"-h","--help","Display help menu."};
-const pachy::Flag kJobsFlag{"-j","--jobs","Run specified jobs."};
+const pachy::Flag kJobsFlag{"-j","--job","Run specified job."};
 const pachy::Flag kPipelineFlag{"-p","--pipeline","Run specified pipeline."};
 }  // namespace
 
@@ -33,15 +33,16 @@ int Pachy::execute() {
     // Version
     if (arg_parser_.is_flag_used(kVersionFlag.get_short())) {
         printer_.version();
+        return error_code_success;
     }
     // Help
     if (arg_parser_.is_flag_used(kHelpFlag.get_short())) {
         printer_.help();
+        return error_code_success;
     }
     // Jobs
     //
     // Pipeline
-    std::cout << "Pachy run" << std::endl;
     return error_code_success;
 }
 

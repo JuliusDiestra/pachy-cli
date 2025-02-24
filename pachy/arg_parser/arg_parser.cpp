@@ -20,8 +20,10 @@ std::size_t ArgParser::size() const {
 }
 
 pachy::StatusCode ArgParser::parse(const std::vector<std::string>& input_cli_args) {
-    // Verification cli_args
-    //  1. Arguments without flag is an error: pachy d -v 23
+    // Pre-Verification of cli_args and store in cli_flag_contailer_
+    //  1. Arguments without flag are not allowed.
+    //      For Example:
+    //          pachy d -v 23
     bool is_flag_registered = false;
     for (std::size_t j{0}; j < input_cli_args.size(); ++j) {
         if (is_flag(input_cli_args.at(j))) {
@@ -42,10 +44,30 @@ pachy::StatusCode ArgParser::parse(const std::vector<std::string>& input_cli_arg
             cli_flag_container_.back().add_arg(input_cli_args.at(j));
         }
     }
-    // Update information in flag_container_ from cli_flag_container_ information.
-    auto status_code_verification = verification_cli_args(input_cli_args);
-    if (status_code_verification.failure()) {
-        return status_code_verification;
+    // Update values in flag_contailer_ from cli_flag_container_
+    for (std::size_t j{}; j < cli_flag_container_.size(); ++j) {
+        auto status_flag_index = get_flag_index(cli_flag_container_.at(j).get_flag());
+        if (status_flag_index.has_value()) {
+            auto index = status_flag_index.value();
+            // Set flag as used.
+            flag_container_.at(index).set_used();
+            // Append args if applied
+            if (cli_flag_container_.at(j).size_args() > 0) {
+                // Apend args.
+                auto status_append = flag_container_.at(index).set_args(cli_flag_container_.at(j).get_args());
+                if (status_append.failure()) {
+                    return status_append;
+                }
+            } else {
+                if (!flag_container_.at(index).is_boolean()) {
+                    // Error. Flag needs arguments.
+                    return StatusCode{StatusType::kUnknownError};
+                }
+            }
+        } else {
+            // Error : Flag in cli_flag_container_ was not found in flag_container_.
+            return StatusCode{StatusType::kUnknownError};
+        }
     }
     return pachy::StatusCode();
 }
@@ -82,18 +104,6 @@ bool ArgParser::is_repeated_flag(const Flag& flag) const {
 
 bool ArgParser::is_flag(const std::string& flag) const {
     return (flag.compare(0,1,"-") == 0);
-}
-
-StatusCode ArgParser::verification_cli_args(const std::vector<std::string>& input_cli_args) const {
-    // Grab flags : if has "-" or "--"
-    std::vector<std::string> cli_flags;
-    for (std::size_t j{0}; j < input_cli_args.size()  ;++j) {
-        if ((input_cli_args.at(j).substr(0,1) == "-") || (input_cli_args.at(j).substr(0,2) == "--")) {
-            cli_flags.push_back(input_cli_args.at(j));
-        }
-    }
-    // Check if flags are registered flags.
-    return StatusCode();
 }
 
 }  // namespace pachy

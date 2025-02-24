@@ -67,7 +67,6 @@ class ArgParser {
     StatusReturn<std::size_t> get_flag_index(const std::string& flag_string) const;
     bool is_repeated_flag(const Flag& flag) const;
     bool is_flag(const std::string& flag) const;
-    StatusCode verification_cli_args(const std::vector<std::string>& input_cli_args) const;
     std::vector<Flag> flag_container_;
     std::vector<CliFlag> cli_flag_container_;
 };

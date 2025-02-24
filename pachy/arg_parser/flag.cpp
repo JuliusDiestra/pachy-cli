@@ -27,6 +27,10 @@ bool Flag::is_used() const {
     return is_used_;
 }
 
+bool Flag::is_boolean() const {
+    return is_boolean_;
+}
+
 const std::string& Flag::get_short() const {
     return short_;
 }
@@ -55,6 +59,15 @@ StatusCode Flag::append_arg(std::string flag_arg) {
     } else {
         return pachy::StatusCode{pachy::StatusType::kArgumentNotSupported};
     }
+}
+
+StatusCode Flag::set_args(std::vector<std::string> args) {
+    if (args.size() > max_args_) {
+        // Error. args should be same or less size as max_args_
+        return StatusCode{StatusType::kUnknownError};
+    }
+    args_ = args;
+    return pachy::StatusCode();
 }
 
 const std::vector<std::string>& Flag::get_args() const {
