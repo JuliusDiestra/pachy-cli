@@ -83,6 +83,13 @@ bool ArgParser::is_flag_used(const std::string& flag_string) const {
     return result;
 }
 
+
+const Flag& ArgParser::get_flag(const std::string& flag_string) const {
+    // To Do : consider returning an StatusReturn<Flag> instead.
+    auto status_index = get_flag_index(flag_string);
+    return flag_container_.at(status_index.value());
+}
+
 StatusReturn<std::size_t> ArgParser::get_flag_index(const std::string& flag_string) const {
     for (std::size_t j = 0; j < flag_container_.size(); ++j) {
         bool is_flag_found = (flag_container_.at(j).get_short().compare(flag_string) == 0) || (flag_container_.at(j).get_long().compare(flag_string) == 0);

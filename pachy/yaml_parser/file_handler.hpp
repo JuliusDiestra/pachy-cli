@@ -1,17 +1,37 @@
+#ifndef YAML_PARSER_FILE_HANDLER_HPP_
+#define YAML_PARSER_FILE_HANDLER_HPP_
 
-#ifndef FILE_HANDLER_HPP_
-#define FILE_HANDLER_HPP_
 
-#include <cstdio>
+#include <memory>
 #include <string>
+#include <cstdio>
+
+#include "pachy/error_handling/status_code.hpp"
+
+namespace pachy {
+
+class FilePointerDeleter {
+  public:
+    FilePointerDeleter() = default;
+    void operator()(FILE* file);
+    bool success() const;
+  private:
+    bool success_;
+
+};
 
 class FileHandler {
   public:
-    FileHandler(std::string file_path);
-    ~FileHandler();
-    FILE& GetFile();
+    FileHandler(const std::string& file_path);
+    bool is_valid() const;
+    FILE& get_file() const;
+    StatusCode close_file();
   private:
-    FILE* file_;
+    std::unique_ptr<FILE, ::pachy::FilePointerDeleter> file_;
 };
 
-#endif // FILE_HANDLER_HPP_
+}  // namespace pachy
+
+#endif // YAML_PARSER_FILE_HANDLER_HPP_
+
+

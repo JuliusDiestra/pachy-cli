@@ -6,6 +6,8 @@
 
 #include "pachy/arg_parser/arg_parser.hpp"
 #include "pachy/error_handling/status_code.hpp"
+#include "pachy/job_runner/job_runner.hpp"
+#include "pachy/yaml_parser/yaml_parser.hpp"
 #include "printer.hpp"
 
 namespace pachy {
@@ -17,6 +19,8 @@ class Pachy {
     int execute();
   private:
     pachy::ArgParser arg_parser_;
+    pachy::YamlParser yaml_parser_;
+    pachy::JobRunner job_runner_;
     pachy::Printer printer_;
     const std::vector<std::string>& input_cli_args_;
     pachy::StatusCode add_flags();
