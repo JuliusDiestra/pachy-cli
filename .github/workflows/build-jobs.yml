@@ -7,7 +7,7 @@ on:
 jobs:
   build-docker-image:
     name: Build project and unit-test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       DOCKER_FILE: Dockerfile
       DOCKER_IMAGE: pachy-image

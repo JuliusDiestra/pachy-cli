@@ -13,5 +13,11 @@ cc_library(
                   "//pachy/main/test:__pkg__",
                   "//pachy/arg_parser:__pkg__",
                   "//pachy/arg_parser/test:__pkg__",
+                  "//pachy/job_runner:__pkg__",
+                  "//pachy/job_runner/test:__pkg__",
+                  "//pachy/data_containers:__pkg__",
+                  "//pachy/data_containers/test:__pkg__",
+                  "//pachy/yaml_parser:__pkg__",
+                  "//pachy/yaml_parser/test:__pkg__",
                  ]
 )

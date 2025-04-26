@@ -63,6 +63,14 @@ class ArgParser {
      *
      */
     bool is_flag_used(const std::string& flag_string) const;
+
+    /**
+     * @brief Method to check if Flag string short or long is used.
+     *
+     * @param flag_string Short or long flag string.
+     *
+     */
+    const Flag& get_flag(const std::string& flag_string) const;
   private:
     StatusReturn<std::size_t> get_flag_index(const std::string& flag_string) const;
     bool is_repeated_flag(const Flag& flag) const;

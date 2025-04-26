@@ -16,6 +16,8 @@ cc_library(
             "printer.hpp"],
     deps = [
         "//pachy/arg_parser:arg_parser",
+        "//pachy/job_runner:job_runner",
+        "//pachy/yaml_parser:yaml_parser",
         "//pachy/error_handling:error_handling"
     ],
     visibility = ["//pachy/main/test:__pkg__"]
