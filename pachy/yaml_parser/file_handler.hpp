@@ -10,28 +10,26 @@
 
 namespace pachy {
 
-class FilePointerDeleter {
-  public:
-    FilePointerDeleter() = default;
-    void operator()(FILE* file);
-    bool success() const;
-  private:
-    bool success_;
-
-};
-
 class FileHandler {
   public:
-    FileHandler(const std::string& file_path);
+    FileHandler();
+    StatusCode open(const std::string& file_path);
     bool is_valid() const;
     FILE& get_file() const;
-    StatusCode close_file();
+    StatusCode close();
   private:
-    std::unique_ptr<FILE, ::pachy::FilePointerDeleter> file_;
+    class FilePointerDeleter {
+      public:
+        FilePointerDeleter() = default;
+        void operator()(FILE* file);
+        bool success() const;
+      private:
+        bool success_;
+    };
+    std::unique_ptr<FILE, FilePointerDeleter> file_;
 };
 
 }  // namespace pachy
 
 #endif // YAML_PARSER_FILE_HANDLER_HPP_
-
 

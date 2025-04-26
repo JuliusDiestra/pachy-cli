@@ -10,9 +10,11 @@ const std::string kJobsFile{"jobs.yaml"};
 
 TEST(FileHandler, Open_and_Close) {
     auto file = kFileLocation + kJobsFile;
-    pachy::FileHandler file_handler(file);
+    pachy::FileHandler file_handler;
+    auto status_open = file_handler.open(file);
+    ASSERT_TRUE(status_open.success());
     ASSERT_TRUE(file_handler.is_valid());
-    auto status = file_handler.close_file();
+    auto status = file_handler.close();
     EXPECT_TRUE(status.success());
 }
 

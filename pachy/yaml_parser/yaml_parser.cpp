@@ -1,12 +1,13 @@
 
 #include "yaml_parser.hpp"
 
-#include <filesystem>
-#include <iostream>
-
 namespace pachy {
 
-YamlParser::YamlParser() {}
+YamlParser::YamlParser() :
+    file_system_handler_{},
+    file_handler_{},
+    file_parser_{},
+    data_{}{}
 
 StatusCode YamlParser::parse() {
     // Get all files inside .pachy directory
@@ -20,7 +21,21 @@ StatusCode YamlParser::parse() {
         return StatusCode{StatusType::kUnknownError};
     }
     for (std::size_t j{0}; j < files_in_pachy_dir.size(); ++j) {
-        // read yaml file and gets jobs.
+        // open yaml file
+        auto status_open_file = file_handler_.open(files_in_pachy_dir.at(j));
+        if (status_open_file.failure()) {
+            // error opening file
+            return StatusCode{StatusType::kUnknownError};
+        }
+        auto file_parsed_sr = file_parser_.parse(file_handler_.get_file());
+        if (!file_parsed_sr.has_value()) {
+            // error while error parsing yaml file.
+            return file_parsed_sr.status_code();
+        }
+        const auto add_data_status = data_.add(std::move(file_parsed_sr.value()));
+        if (add_data_status.failure()) {
+            return add_data_status;
+        }
     }
     return StatusCode();
 }
